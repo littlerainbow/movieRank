@@ -1,0 +1,658 @@
+/*
+main color  #cdff4e
+secondary  #ff4e74
+third #c71fff
+
+*/
+div,
+span,
+p,
+ul,
+li {
+    margin: 0;
+    padding: 0;
+}
+*,
+body {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-size: 16px;
+    border: none;
+    font-family: 'tahoma';
+    color: #555;
+}
+*::-webkit-scrollbar {
+    width: .5em;
+}
+
+*::-webkit-scrollbar-track {
+    -webkit-box-shadow: inset 0 0 3px rgba(0,0,0,0.3);
+}
+
+*::-webkit-scrollbar-thumb {
+    background-color: rgba(255, 78, 116, 1);
+    outline: 1px solid slategrey;
+}
+ul {
+    list-style: none;
+}
+h1 {
+    font-size: 4em;
+    font-weight: 700;
+    color: white;
+    transform: rotate(-5deg);
+    text-shadow: -2px 3px 1px rgba(255, 78, 116, 1);
+}
+.wrapper {
+    display: grid;
+    grid-template-columns: 1fr auto auto 1fr;
+    grid-template-rows: 1fr;
+    position: relative;
+    height:100vh;
+    overflow: hidden;
+}
+.wrapper section {
+    height: 100vh;
+    width: 100%;
+}
+.start,
+.next-round,
+.once-more {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    background: #ff4e74;
+    color: white;
+    border: 2px solid white;
+    transition: all .3s;
+    cursor: pointer;
+}
+
+.start:hover,
+.next-round:hover,
+.once-more:hover {
+    width: 120px;
+    height: 120px;
+}
+
+.actors-wrap,
+.awards-wrap {
+    cursor: pointer;
+    z-index: 20;
+    padding: 3px 5px;
+    border-radius: 3px;
+    background: white;
+    border: 2px solid #c71fff;
+    box-shadow: -2px 3px 0 #c71fff;
+    transition: all .7s;
+}
+.vote {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    color: white;
+    background: #c71fff;
+    grid-row: footer-start / footer-end;
+    justify-self: center;
+    align-self: start;
+    transform: translate(0, 200%);
+    transition: all .3s;
+    cursor: pointer;;
+}
+.vote:hover{
+    border-radius: 0;
+    width: 100%;
+    height: 100%;
+}
+.poster {
+    width: 100%;
+    height: 100vh;
+    align-self: start;
+}
+.movie-popup {
+    background: white;
+    transition: all .7s;
+    position: relative;
+    padding: 15%;
+    z-index: 25;
+
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+.close {
+    width: 20px;
+    height: 20px;
+    position: absolute;
+    background: white;
+    top: 5px;
+    right: 10px;
+    cursor: pointer;
+}
+.close:before,
+.close:after {
+    content: '';
+    width: 20px;
+    height: 3px;
+    position: absolute;
+    transform: rotate(45deg);
+    background: #c71fff;
+    top: 50%;
+    left: 50%;
+    margin-left: -10px;
+    margin-top: -1px;
+}
+.close:after {
+    transform: rotate(-45deg);
+}
+.popup-info {
+    position: absolute;
+    top: 100px;
+}
+.popup-info li {
+    margin-bottom: 10px;
+    font-size: 1.2em;
+    color: #777;
+}
+
+/********MAIN PAGE*********/
+
+
+.main-page {
+    position: absolute;
+    width: 100%;
+    height: 100vh;
+    top: 0;
+    left: 0;
+    background: #cdff4e;
+    display: grid;
+    grid-template: 1fr / 1fr;
+    z-index: 200;
+}
+.main-page h1 {
+    display: block;
+    margin-top: 50px;
+    grid-column: 1;
+    grid-row: 1;
+    justify-self: center;
+    align-self: start;
+    padding: 0 20px;
+    z-index: 101;
+    text-align: center;
+}
+section > h2 {
+    color: white;
+    font-size: 1.5em;
+    justify-self: center;
+    align-self: center;
+    grid-row: 1;
+    z-index: 30;
+    padding: 5px 10px;
+    border-radius: 6px;
+    background: #c71fff;
+    transform: translate(0, -400px);
+    transition: all .7s;
+}
+.main-page p {
+    grid-column: 1 / 1;
+    grid-row: 1 / 1;
+    justify-self: center;
+    align-self: center;
+    width: 40%;
+    padding: 50px;
+    background: rgba( 255, 255, 255, .9);
+    font-size: 1.5em;
+    border-radius: 6px;
+    transition: all .5s;
+}
+.img-container {
+    display: inline-block;
+    grid-column: 1 / 2;
+    grid-row: 1 / 2;
+    justify-self: center;
+
+    width: 100%;
+    max-width: 255px;
+    background: url(../img/oscarl.png) no-repeat;
+    background-size: contain;;
+}
+.start{
+    grid-column: 1/2;
+    grid-row: 1/2;
+    align-self: end;
+    justify-self: center;
+    margin-bottom: 30px;
+}
+/******FIRST SIDE********/
+
+.first-film {
+    display: grid;
+    grid-column: 1 / 3;
+    grid-row: 1;
+    background: #cdff4e;
+    grid-template-columns: [col1-start] auto [col2-start] 50px [col2-end] 1fr [axis];
+    grid-template-rows: [row1-start] 100px
+                        [row2-start] 40px
+                        [row2-end] 1fr
+                        [footer-start] 120px
+                        [footer-end];
+    justify-self: stretch;
+    align-self: stretch;
+
+}
+.first-film h2 {
+    grid-column: col1-start / axis;
+}
+.first-film .awards-wrap,
+.first-film .actors-wrap{
+    display: grid;
+    justify-self: start;
+    color: #c71fff;
+    margin-left: 50px;
+    transform: translateX(-500%);
+}
+.first-film .awards-wrap {
+    grid-column: col1-start / col2-start;
+    grid-row: row2-start / row2-end;
+}
+.first-film .actors-wrap {
+    grid-column: col1-start / col2-start;
+    grid-row: row2-end;
+    align-self: start;
+    margin-top: 25px;
+}
+.first-film .awards-wrap.open,
+.first-film .actors-wrap.open{
+    transform: translateX(0);
+}
+.first-film .awards-list,
+.first-film .actors-info{
+    transform: translateX(-500px);
+}
+.first-film .vote {
+    grid-column: col1-start / axis;
+}
+.first-film .poster {
+    grid-column: col1-start / axis;
+    grid-row: row1-start / footer-end;
+    justify-self: center;
+    transform: translate(-200%,0);
+    transition: transform .7s cubic-bezier(.17,1.15,.17,1);
+    background-size: cover;
+}
+.mp1 {
+    grid-area: row1-start / col1-start / footer-end / axis;
+    transform: translateX(-200%);
+}
+
+/*******Versus*******/
+
+
+.versus-v,
+.versus-s {
+    font-size: 20em;
+    color: white;
+    grid-row: 1;
+    align-self: center;
+    z-index: 15;
+    line-height: 1;
+    text-shadow: -4px 8px 1px rgba(255, 78, 116, 1);
+
+    transition: all .5s;
+}
+.versus-v {
+    grid-column: 2 / 3;
+    justify-self: end;
+    transform: translate(0,-100vh);
+}
+.versus-s {
+    grid-column: 3 / 4;
+    justify-self: start;
+    transform: translate(0,200vh);
+}
+
+/*********LOSE*********/
+
+.lose-wrap {
+    width: 250px;
+    height: 100px;
+    position: relative;
+    grid-row: 1;
+    grid-column: 1 / 5;
+    align-self: center;
+    justify-self: center;
+    z-index: 200;
+    overflow: hidden;
+    transform: rotate(-5deg);
+    display: none;
+}
+.slashed {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    text-shadow: 3px 3px 3px rgba(0,0,0,0.5);
+}
+.slashed .top,
+.slashed .bot {
+    text-align: center;
+    font: 62px/100px arial;
+    text-transform: uppercase;
+    text-align: center;
+    overflow: hidden;
+    color: #cdff4e;
+}
+.slashed .top:before,
+.slashed .bot:before {
+    content: attr(title);
+    -webkit-transform: rotate(5deg);
+    -moz-transform: rotate(5deg);
+    -o-transform: rotate(5deg);
+    -ms-transform: rotate(5deg);
+    transform: rotate(5deg);
+}
+.slashed .top {
+    position: absolute;
+    top: 0;
+    left: 5px;
+    right: 0;
+    bottom: 50%;
+}
+.slashed .top:before {
+    position: absolute;
+    bottom: -50px;
+    left: 0;
+    right: 0;
+}
+.slashed .bot {
+    position: absolute;
+    top: 50%;
+    left: 0;
+    right: 5px;
+    bottom: 0;
+}
+.slashed .bot:before {
+    position: absolute;
+    top: -50px;
+    left: 0;
+    right: 0;
+}
+/******SECOND SIDE******/
+
+
+.second-film {
+    display: grid;
+    grid-template-columns: [axis] 1fr [col3-start] 50px [col4-start] 50px [col4-end];
+    grid-template-rows: [row1-start] 100px
+                        [row2-start] 40px
+                        [row2-end]   1fr
+                        [footer-start] 120px
+                        [footer-end];
+    grid-column: 3 / 5;
+    grid-row: 1;
+    justify-self: stretch;
+    background: #cdff4e;
+}
+.second-film h2 {
+    grid-column: axis / col4-end;
+}
+.second-film .awards-wrap,
+.second-film .actors-wrap{
+    align-self: start;
+    margin-right: 50px;
+    justify-self: end;
+    transform: translateX(5000px);
+    color: #c71fff;
+}
+.second-film .awards-wrap {
+    grid-column: col4-start / col4-end;
+    grid-row: row2-start / row2-end;
+}
+.second-film .actors-wrap {
+    grid-column: col4-start / col4-end;
+    grid-row: row2-end;
+    margin-top: 25px;
+}
+.second-film .awards-wrap.open,
+.second-film .actors-wrap.open{
+    transform: translateX(0);
+
+}
+.second-film .vote {
+    grid-column: axis / col4-end;
+}
+.second-film .poster {
+    grid-column: axis / col4-end;
+    grid-row: row1-start / footer-end;
+    justify-self: center;
+
+    background-size: cover;
+    transform: translate(200%,0);
+    transition: transform .7s cubic-bezier(.17,1.15,.17,1);
+}
+.mp2 {
+    grid-area: row1-start / axis / footer-end / col4-end;
+    transform: translateX(200%);
+}
+
+
+/*******Winner*************/
+
+.winner-wrap {
+    grid-column: 1 / 7;
+    grid-row: 1 / 2  ;
+    z-index: 50;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: auto 1fr;
+    background: white;
+    transition: transform .7s;
+    transform: translateX(-200%);
+}
+
+.winner-wrap h1 {
+    grid-column: 2 / 3;
+    grid-row: 1 / 2;
+    align-self: start;
+    justify-self: center;
+    margin-top: 20px;
+    z-index:10;
+}
+
+.winner-wrap .poster {
+    grid-column: 1 / 2;
+    grid-row: 1 / 3;
+}
+.winner-info {
+    grid-column: 2 / 3;
+    grid-row: 2 / 3;
+    background: white;
+    margin-top: 20px;
+    padding: 10%;
+    overflow-y: auto;
+}
+.winner-info h2 {
+    color: #c71fff;
+    text-align: center;
+}
+.next-round {
+    grid-column: 1 / 2;
+    grid-row: 1 / 3;
+    align-self: end;
+    justify-self: center;
+    margin-bottom: 30px;
+    z-index: 40;
+}
+/******results********/
+
+.results {
+    grid-column: 1/ 5;
+    grid-row: 1;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: auto 1fr 120px;
+    padding: 30px;
+    background: url(../img/oscarl.png) center center no-repeat, #000;
+    background-size:contain;
+    transform: translateY(-200%);
+    z-index: 300;
+    transition: transform .7s;
+    overflow-y: auto;
+}
+.results h1 {
+    grid-column: 1 / 3;
+    grid-row: 1 / 2;
+    justify-self: center;
+    align-self: start;
+    margin-bottom: 50px;
+}
+.results h2 {
+    margin-bottom: 10px;
+    color: #ff4e74;
+    background: white;
+    padding: 4px 0;
+    text-align: center;
+    border-radius: 3px;
+}
+.your-rank,
+.world-rank {
+    grid-column: 1 / 2;
+    grid-row: 2 / 3;
+    justify-self: center;
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: auto;
+    grid-auto-flow:row;
+    padding: 10px 20px;
+    border: 2px solid white;
+    border-radius: 4px;
+    width: 90%;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+.world-rank {
+    grid-column: 2 / 3;
+}
+.your-rank li,
+.world-rank li{
+    width: 100%;
+    display: grid;
+    grid-template-columns: [title] 1fr [score] 100px [end];
+    grid-template-rows: auto;
+    justify-content: space-between;
+    margin-bottom: 5px;
+    padding: 3px;
+    background: white;
+    color: #444;
+    border-radius: 3px;
+}
+.title {
+    margin-left: 20px;
+    grid-column: title / score;
+    align-self: center;
+}
+.rank {
+    justify-self: end;
+    align-self: center;
+    grid-column: score / end;
+    margin-right: 7px;
+}
+.once-more {
+    grid-area: 3 / 1 / 4 / 3;
+    align-self: end;
+    justify-self: center;
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+}
+
+/***********Media*************/
+
+@media screen and (max-width: 920px) {
+    .main-page p {
+        width: 80%;
+        padding: 20px 5%;
+    }
+    .main-page h1 {
+        font-size: 2em;
+        transform: none;
+    }
+    .start {
+        margin-bottom: 20px;
+    }
+    .first-film h2,
+    .second-film h2 {
+        font-size: 1.2em;
+    }
+}
+@media screen and (max-width: 838px) {
+    .results h1 {
+        transform: rotate(0);
+        font-size: 2em;
+    }
+}
+@media screen and (max-width: 650px) {
+    .winner-wrap h1 {
+        font-size: 2em;
+    }
+}
+@media screen and (max-width: 600px) {
+    .first-film h2,
+    .second-film h2 {
+        font-size: 1em;
+    }
+    .awards-wrap,
+    .actors-wrap {
+        display: none !important;
+    }
+    .versus-v,
+    .versus-s {
+        font-size: 7em;
+    }
+    .results {
+        grid-column: 1/ 5;
+        grid-row: 1;
+        display: grid;
+        grid-template-columns: 1fr;
+        grid-template-rows: auto auto auto 120px;
+        padding: 10px 0 0;
+    }
+    .results h1 {
+        grid-column: 1;
+        grid-row: 1;
+        justify-self: center;
+        align-self: start;
+        margin-bottom: 50px;
+    }
+    .your-rank,
+    .world-rank {
+        grid-column: 1;
+        grid-row: 2;
+        justify-self: center;
+        align-self: start;
+        display: grid;
+        grid-template-columns: 1fr;
+        grid-template-rows: auto;
+        grid-auto-flow:row;
+        margin-bottom: 20px;
+    }
+    .world-rank {
+        grid-row: 3;
+    }
+    .once-more {
+        grid-row: 4;
+    }
+}
+@media screen and (max-width: 420px) {
+    .start,
+    .next-round {
+        width: 70px;
+        height: 70px;
+    }
+    .first-film h2,
+    .second-film h2 {
+        font-size: .9em;
+    }
+}
